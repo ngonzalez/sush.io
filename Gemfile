@@ -4,6 +4,7 @@ source "https://rubygems.org" do
   gem 'pg'
   gem 'haml-rails'
   gem 'jquery-rails'
+  gem 'octokit'
 
   group :development do
     gem 'puma'
