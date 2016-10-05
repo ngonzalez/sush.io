@@ -1,0 +1,17 @@
+local_defaults: &local-defaults
+  adapter: postgresql
+  encoding: utf8
+  username: enyo
+  password: 
+
+development:
+  <<: *local-defaults
+  database: sushio_development
+
+test:
+  <<: *local-defaults
+  database: sushio_test
+
+production:
+  <<: *local-defaults
+  database: sushio_production
