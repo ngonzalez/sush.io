@@ -3,6 +3,7 @@ class GithubJob < ActiveJob::Base
   attr_accessor :octokit_user
   def perform args
     raise ArgumentError if !args.has_key? :name
-    @octokit_user = Octokit.user args[:name]
+    client = Octokit::Client.new access_token: GITHUB_TOKEN
+    @octokit_user = client.user args[:name]
   end
 end

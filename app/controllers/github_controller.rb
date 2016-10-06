@@ -1,7 +1,8 @@
 class GithubController < ApplicationController
   def list
+    response = GithubListJob.perform_now name: user_params[:name]
     GithubUpdateJob.perform_later name: user_params[:name]
-    render json: GithubListJob.perform_now(name: user_params[:name]).to_json, status: 200
+    render json: response.to_json, status: 200
   rescue Octokit::NotFound
     render json: { error: t('github.user_not_found') }, status: 200
   rescue Octokit::TooManyRequests

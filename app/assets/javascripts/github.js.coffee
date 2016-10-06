@@ -28,6 +28,6 @@
   $(document).ready ->
     $('form.github-input').submit (e) ->
       e.preventDefault()
-      displayUser url: $(e.target).attr('action'), data: { user: { name: $('#user}').val() } }
+      displayUser url: $(e.target).attr('action'), data: { user: { name: $('#user').val() } }
 
 )(jQuery)
