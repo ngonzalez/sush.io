@@ -4,6 +4,10 @@ source "https://rubygems.org" do
   gem 'pg'
   gem 'haml-rails'
   gem 'jquery-rails'
+  gem 'sass-rails'
+  gem 'bootstrap-sass'
+  gem 'coffee-rails'
+  gem 'uglifier'
   gem 'octokit'
 
   group :development do
