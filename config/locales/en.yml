@@ -29,3 +29,4 @@ en:
       loading: "Loading…"
   github:
     user_not_found: "User not found"
+    too_many_requests: "Too Many Requests"

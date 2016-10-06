@@ -11,7 +11,7 @@
         $('<a />').attr('target', '_blank').attr('href', item.html_url).html(item.name)
       $('#loading').addClass('hidden')
       if data.error
-        $('#results').append($('<span />').html('Error: ' + data.error))
+        $('#results').html($('<span />').html('Error: ' + data.error))
       else
         $.each data, (i, item) ->
           $('#results').append($('<li />').html(buildLink(item)))
@@ -23,14 +23,7 @@
         beforeSend: (jqXHR, PlainObject) ->
           loading()
         success: (data, textStatus, jqXHR) ->
-          updateUser(options)
           callback(data)
-
-  updateUser = (options) ->
-    $.ajax
-      url: options.url,
-      type: 'PUT',
-      data: options.data
 
   $(document).ready ->
     $('form.github-input').submit (e) ->

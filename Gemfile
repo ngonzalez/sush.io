@@ -10,6 +10,7 @@ source "https://rubygems.org" do
   gem 'coffee-rails'
   gem 'uglifier'
   gem 'octokit'
+  gem 'sidekiq'
 
   group :development do
     gem 'pry'
