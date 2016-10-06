@@ -14,17 +14,27 @@ class GithubUpdateJob < GithubJob
   end
   private
   def set_user
-    @user = User.find_by name: octokit_user.login
-    @user = User.create! name: octokit_user.login if !@user
+    @user = User.find_by name: client.login
+    @user = User.create! name: client.login if !@user
+  end
+  def get_resource name
+    page = 1
+    response = client.send name, github_username, per_page: 10, page: page
+    last_response = client.last_response
+    while page < total_pages
+      page += 1
+      response += client.send name, github_username, per_page: 10, page: page
+    end
+    return response
   end
   def update_repositories
-    octokit_user.rels[:repos].get.data.each do |item|
+    get_resource(:repos).each do |item|
       next if user.repositories.detect{|repository| repository.name == item[:name] }
       user.repositories.create! name: item[:name], remote_id: item[:id], remote_created_at: item[:created_at]
     end
   end
   def update_starred_ids
-    remote_starred_ids = octokit_user.rels[:starred].get.data.map(&:id)
+    remote_starred_ids = get_resource(:starred).map(&:id)
     user.update! remote_starred_ids: remote_starred_ids if @user.remote_starred_ids != remote_starred_ids
   end
 end

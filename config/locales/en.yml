@@ -30,3 +30,5 @@ en:
   github:
     user_not_found: "User not found"
     too_many_requests: "Too Many Requests"
+    too_many_login_attempts: "Too Many Login Attempts"
+    unauthorized: "Unauthorized"
