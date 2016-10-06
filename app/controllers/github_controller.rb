@@ -1,6 +1,7 @@
 class GithubController < ApplicationController
-  before_action :set_page, only: [:list]
-  before_action :set_user, only: [:list]
+  before_action :set_page, only: [:index, :list]
+  before_action :set_user, only: [:index, :list]
+  def index ; end
   def list
     GithubUpdateJob.perform_now user: @user if !@user.last_updated_at || (Time.now - @user.last_updated_at > 1.hour)
     @repositories = @user.repositories.paginate page: @page, per_page: 5
@@ -15,10 +16,17 @@ class GithubController < ApplicationController
   end
   private
   def set_user
-    @user = User.find_by name: user_params[:name]
-    @user = User.create! name: user_params[:name] if !@user
+    if params[:user]
+      @user = User.find_by name: user_params[:name]
+      @user = User.create! name: user_params[:name] if !@user
+    else
+      @user = User.new
+    end
   end
   def user_params
     params.require(:user).permit(:name)
+  end
+  def set_page
+    @page = params[:page].to_i > 0 ? params[:page].to_i : 1
   end
 end

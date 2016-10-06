@@ -2,4 +2,4 @@
   - @repositories.each do |repository|
     %li= repository.name
 
-= will_paginate @repositories, params: { controller: :home, action: :index }
+= will_paginate @repositories, params: { controller: :github, action: :index }
