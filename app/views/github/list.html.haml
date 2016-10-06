@@ -1,0 +1,5 @@
+%ul
+  - @repositories.each do |repository|
+    %li= repository.name
+
+= will_paginate @repositories, params: { controller: :home, action: :index }

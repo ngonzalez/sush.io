@@ -1,31 +1,33 @@
-class GithubUpdateJob < GithubJob
-  attr_accessor :user
+class GithubUpdateJob < ActiveJob::Base
+  queue_as :default
+  attr_accessor :client, :user
   def perform args
     ActiveRecord::Base.transaction do
       begin
-        super args
-        set_user
+        raise ArgumentError if !args.has_key?(:user) || !args[:user].is_a?(User)
+        @user = args[:user]
+        @client = Octokit::Client.new access_token: GITHUB_TOKEN
         update_repositories
         update_starred_ids
+        user.update! last_updated_at: Time.now
       rescue Exception => e
         raise ActiveRecord::Rollback
       end
     end
   end
   private
-  def set_user
-    @user = User.find_by name: client.login
-    @user = User.create! name: client.login if !@user
-  end
   def get_resource name
     page = 1
-    response = client.send name, github_username, per_page: 10, page: page
+    response = client.send name, user.name, per_page: 100, page: page
     last_response = client.last_response
     while page < total_pages
       page += 1
-      response += client.send name, github_username, per_page: 10, page: page
+      response += client.send name, user.name, per_page: 100, page: page
     end
     return response
+  end
+  def total_pages
+    client.last_response.rels[:last] ? client.last_response.rels[:last].href.match(/page=(\d+).*$/)[1].to_i : 1
   end
   def update_repositories
     get_resource(:repos).each do |item|

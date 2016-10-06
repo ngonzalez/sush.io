@@ -4,16 +4,16 @@
   = form_tag "#", class: 'github-input' do
     .form-group
       .col-md-4.col-xs-4
-        = text_field_tag :user, params[:user], class: 'form-control', placeholder: t('home.search.placeholder')
+        = text_field_tag :user, params[:user] ? params[:user][:name] : nil, class: 'form-control', placeholder: t('home.search.placeholder')
       .col-md-2.col-xs-2
         %button.btn.btn-default{ type: 'submit' }= t 'home.search.label'
   .clear
+
+#loading.hidden
+  %i.fa.fa-spin.fa-refresh.fa-1x.fa-fw.grey
+  %span.sr-only= t 'home.search.loading'
+
 #results.col-md-6.col-xs-6
-  #loading.hidden
-    %i.fa.fa-spin.fa-refresh.fa-1x.fa-fw.grey
-    %span.sr-only= t 'home.search.loading'
-  %ul
-#pagination.col-md-6.col-xs-6
 
 :javascript
-  initGithub({ url: "#{github_path}", name: #{params[:user].to_json}, page: #{@page.to_json} })
+  initGithub({ url: "#{github_path}", name: #{params[:user] ? params[:user][:name].to_json : nil.to_json}, page: #{@page.to_json} })

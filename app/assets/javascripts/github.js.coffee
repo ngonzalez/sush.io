@@ -11,32 +11,14 @@
 
     loading = () ->
       $('#loading').removeClass('hidden')
-      $('#results').find('li').remove()
-      $('#pagination').html('')
+      $('#results').html('')
 
     callback = (data) ->
-      buildLink = (item) ->
-        $('<a />').attr('target', '_blank').attr('href', item.html_url).html(item.name)
       $('#loading').addClass('hidden')
       if data.error
         $('#results').html($('<span />').html('Error: ' + data.error))
       else
-        $.each data.results, (i, item) ->
-          $('#results').find('ul').append($('<li />').html(buildLink(item)))
-
-        if data.page > 1
-          $('#pagination').append(
-            $('<a />').attr('href',
-              "/?" + $.param({ user: options.data.user.name, page: data.page - 1 })
-            ).html("< Prev").addClass('margin-10')
-          )
-
-        if data.page < data.total_pages
-          $('#pagination').append(
-            $('<a />').attr('href',
-              "/?" + $.param({ user: options.data.user.name, page: data.page + 1 })
-            ).html("Next >").addClass('margin-10')
-          )
+        $('#results').html(data)
 
     $.ajax
         url: options.url,

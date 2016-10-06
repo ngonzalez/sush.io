@@ -11,8 +11,8 @@ source "https://rubygems.org" do
   gem 'uglifier'
   gem 'octokit'
   gem 'sidekiq'
-
   gem 'rack-cache', require: 'rack/cache'
+  gem 'will_paginate'
 
   group :development do
     gem 'pry'

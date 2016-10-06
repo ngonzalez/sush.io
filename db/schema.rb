@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005154309) do
+ActiveRecord::Schema.define(version: 20161006162511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20161005154309) do
     t.text     "remote_starred_ids"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.datetime "last_updated_at"
     t.index ["id"], name: "index_users_on_id", using: :btree
     t.index ["name"], name: "index_users_on_name", using: :btree
   end
