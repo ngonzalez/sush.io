@@ -12,6 +12,7 @@
     loading = () ->
       $('#loading').removeClass('hidden')
       $('#results').find('li').remove()
+      $('#pagination').html('')
 
     callback = (data) ->
       buildLink = (item) ->
@@ -23,19 +24,17 @@
         $.each data.results, (i, item) ->
           $('#results').find('ul').append($('<li />').html(buildLink(item)))
 
-        $('#pagination').html('')
-
         if data.page > 1
           $('#pagination').append(
             $('<a />').attr('href',
-              "/?" + $.param({ user: $('#user').val(), page: data.page - 1 })
+              "/?" + $.param({ user: options.data.user.name, page: data.page - 1 })
             ).html("< Prev").addClass('margin-10')
           )
 
         if data.page < data.total_pages
           $('#pagination').append(
             $('<a />').attr('href',
-              "/?" + $.param({ user: $('#user').val(), page: data.page + 1 })
+              "/?" + $.param({ user: options.data.user.name, page: data.page + 1 })
             ).html("Next >").addClass('margin-10')
           )
 
@@ -47,7 +46,5 @@
           loading()
         success: (data, textStatus, jqXHR) ->
           callback(data)
-
-  $(document).ready ->
 
 )(jQuery)
