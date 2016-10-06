@@ -1,19 +1,21 @@
-.container.col-md-6.col-xs-6
-  %h3= t 'home.title'
-  %p.grey= t 'home.description'
-  = form_tag "#", class: 'github-input' do
-    .form-group
-      .col-md-4.col-xs-4
-        = text_field_tag :user, @user.name, class: 'form-control', placeholder: t('home.search.placeholder')
-      .col-md-2.col-xs-2
-        %button.btn.btn-default{ type: 'submit' }= t 'home.search.label'
-  .clear
+.row
+  .col-md-6.col-xs-6
+    %h3= t 'home.title'
+    %p.grey= t 'home.description'
+    = form_tag "#", class: 'github-input' do
+      .form-group
+        .col-md-5.col-xs-5
+          = text_field_tag :user, @user.name, class: 'form-control', placeholder: t('home.search.placeholder')
+        .col-md-1.col-xs-1
+          %button.btn.btn-default{ type: 'submit' }= t 'home.search.label'
+    .clear
 
-#loading.hidden
-  %i.fa.fa-spin.fa-refresh.fa-1x.fa-fw.grey
-  %span.sr-only= t 'home.search.loading'
-
-#results.col-md-6.col-xs-6
+.row
+  .col-md-6.col-xs-6
+    #loading.hidden
+      %i.fa.fa-spin.fa-refresh.fa-1x.fa-fw.grey
+      %span.sr-only= t 'home.search.loading'
+    #results
 
 :javascript
   initGithub({ url: "#{github_path}", name: #{@user.name.to_json}, page: #{@page.to_json} })

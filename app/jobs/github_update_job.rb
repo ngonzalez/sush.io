@@ -30,7 +30,9 @@ class GithubUpdateJob < ActiveJob::Base
     client.last_response.rels[:last] ? client.last_response.rels[:last].href.match(/page=(\d+).*$/)[1].to_i : 1
   end
   def update_repositories
-    get_resource(:repos).each do |item|
+    results = get_resource :repos
+    user.repositories.select{|repository| results.map(&:name).exclude?(repository.name) }.each &:destroy
+    results.each do |item|
       next if user.repositories.detect{|repository| repository.name == item[:name] }
       user.repositories.create! name: item[:name], remote_id: item[:id], remote_created_at: item[:created_at]
     end
