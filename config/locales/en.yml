@@ -20,4 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  home:
+    title: "Sush.io Demo App"
+    description: "List GitHub repositories"
+    search:
+      placeholder: "Search for a GitHub username"
+      label: "Search"
+      loading: "Loading…"
+  github:
+    error: "User not found"

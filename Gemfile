@@ -6,11 +6,13 @@ source "https://rubygems.org" do
   gem 'jquery-rails'
   gem 'sass-rails'
   gem 'bootstrap-sass'
+  gem 'font-awesome-sass'
   gem 'coffee-rails'
   gem 'uglifier'
   gem 'octokit'
 
   group :development do
+    gem 'pry'
     gem 'puma'
     gem 'listen'
   end

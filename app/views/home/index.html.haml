@@ -1,5 +1,15 @@
-%h1 Test
-%p
-  text text text text text text text text
-  text text text text text text text text
-  text text text text text text text text
+.container
+  %h3= t 'home.title'
+  %p.grey= t 'home.description'
+  = form_tag github_index_path, class: 'github-input' do
+    .form-group
+      .col-md-5
+        = text_field_tag :user, params[:user], class: 'form-control', placeholder: t('home.search.placeholder')
+      .col-md-5
+        %button.btn.btn-default{ type: 'submit' }= t 'home.search.label'
+  .clear
+#results
+  #loading.hidden
+    %i.fa.fa-spin.fa-refresh.fa-1x.fa-fw.grey
+    %span.sr-only= t 'home.search.loading'
+  %ul
