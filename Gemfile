@@ -12,6 +12,8 @@ source "https://rubygems.org" do
   gem 'octokit'
   gem 'sidekiq'
 
+  gem 'rack-cache', require: 'rack/cache'
+
   group :development do
     gem 'pry'
     gem 'puma'
