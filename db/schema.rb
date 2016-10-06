@@ -16,19 +16,23 @@ ActiveRecord::Schema.define(version: 20161005154309) do
   enable_extension "plpgsql"
 
   create_table "repositories", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",           null: false
+    t.string   "name",              null: false
+    t.integer  "remote_id",         null: false
+    t.datetime "remote_created_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.index ["id"], name: "index_repositories_on_id", using: :btree
     t.index ["name"], name: "index_repositories_on_name", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "stars"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",               null: false
+    t.text     "remote_starred_ids"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["id"], name: "index_users_on_id", using: :btree
+    t.index ["name"], name: "index_users_on_name", using: :btree
   end
 
 end

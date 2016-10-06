@@ -19,15 +19,22 @@
     $.ajax
         url: options.url,
         type: 'GET',
-        data: { user: options.user },
+        data: options.data,
         beforeSend: (jqXHR, PlainObject) ->
           loading()
         success: (data, textStatus, jqXHR) ->
+          updateUser(options)
           callback(data)
+
+  updateUser = (options) ->
+    $.ajax
+      url: options.url,
+      type: 'PUT',
+      data: options.data
 
   $(document).ready ->
     $('form.github-input').submit (e) ->
       e.preventDefault()
-      displayUser url: $(e.target).attr('action'), user: $('#user}').val()
+      displayUser url: $(e.target).attr('action'), data: { user: { name: $('#user}').val() } }
 
 )(jQuery)

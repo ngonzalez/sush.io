@@ -28,4 +28,4 @@ en:
       label: "Search"
       loading: "Loading…"
   github:
-    error: "User not found"
+    user_not_found: "User not found"

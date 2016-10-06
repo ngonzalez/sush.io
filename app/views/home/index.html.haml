@@ -1,7 +1,7 @@
 .container
   %h3= t 'home.title'
   %p.grey= t 'home.description'
-  = form_tag github_index_path, class: 'github-input' do
+  = form_tag github_path, class: 'github-input' do
     .form-group
       .col-md-5
         = text_field_tag :user, params[:user], class: 'form-control', placeholder: t('home.search.placeholder')
