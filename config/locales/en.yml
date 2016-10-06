@@ -32,3 +32,8 @@ en:
     too_many_requests: "Too Many Requests"
     too_many_login_attempts: "Too Many Login Attempts"
     unauthorized: "Unauthorized"
+  users:
+    repository: "repository"
+  layout:
+    home: "Home"
+    users: "Users"

@@ -10,6 +10,20 @@
     <%= yield(:head) if defined?(:head) %>
   </head>
   <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <%= link_to root_path, class: "navbar-brand" do %>
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <%= t 'layout.home' %>
+          <% end %>
+          <%= link_to users_path, class: "navbar-brand" do %>
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <%= t 'layout.users' %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
     <%= yield %>
   </body>
 </html>

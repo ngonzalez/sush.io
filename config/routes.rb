@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root 'github#index'
   get '/github', to: 'github#list'
   put '/github', to: 'github#update'
+  get '/users', to: 'users#index'
 end

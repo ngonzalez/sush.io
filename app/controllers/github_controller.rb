@@ -5,6 +5,7 @@ class GithubController < ApplicationController
   def list
     GithubUpdateJob.perform_now user: @user if !@user.last_updated_at || (Time.now - @user.last_updated_at > 1.hour)
     @repositories = @user.repositories.order("remote_created_at::timestamp DESC").paginate page: @page, per_page: ITEMS_PER_PAGE
+    render "github/list", layout: false
   rescue Octokit::NotFound
     render text: t('github.user_not_found'), status: 200
   rescue Octokit::TooManyRequests
