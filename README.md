@@ -1,24 +1,15 @@
-# README
+# Sush.io Demo App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Dependencies:
+  - PostgreSQL (update config/database.yml)
+  - GitHub Account with token (update config/initializers/config.rb)
 
-Things you may want to cover:
+Start Application in Development environment
+```
+  bundle exec puma -p 3000 -C config/puma.rb
+```
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Run tests (RSpec)
+```
+  bundle exec rspec
+```
