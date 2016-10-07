@@ -1,7 +1,7 @@
 %ul
   - @repositories.each do |repository|
     %li
-      = link_to repository.name, [@user.name, repository.name].join('/'), target: '_blank'
+      = link_to repository.name, GITHUB_URL + [@user.name, repository.name].join('/'), target: '_blank'
       %small.grey= "%s ago" % [ time_ago_in_words(repository.remote_created_at) ]
 
 = will_paginate @repositories, params: { controller: :github, action: :index }
