@@ -9,16 +9,10 @@ RSpec.describe GithubUpdateJob, :type => :job do
       end
       it "responds successfully with an HTTP 200 status code" do
         # Stub GitHub API Responses
-        content = JSON.parse File.read(Rails.root.join("spec/web_mocks/github_repos"))
-        response = content.each_with_object([]){ |item, array| array << item.deep_symbolize_keys }
-        stub_request(:get, "https://api.github.com/users/#{@user.name}/repos?page=1&per_page=#{API_PER_PAGE}").to_return(status: 200, body: response)
         allow_any_instance_of(Octokit::Configurable).to receive(:login).and_return(true)
-        content = JSON.parse File.read(Rails.root.join("spec/web_mocks/github_user"))
-        response = content.deep_symbolize_keys
-        stub_request(:get, "https://api.github.com/user").to_return(status: 200, body: response.to_s)
-        content = JSON.parse File.read(Rails.root.join("spec/web_mocks/github_starred"))
-        response = content.each_with_object([]){ |item, array| array << item.deep_symbolize_keys }
-        stub_request(:get, "https://api.github.com/users/#{@user.name}/starred?page=1&per_page=#{API_PER_PAGE}").to_return(status: 200, body: response)
+        stub_request(:get, "https://api.github.com/user").to_return(status: 200, body: File.read(Rails.root.join("spec/web_mocks/github_user")), headers: {'Content-Type' => 'application/json'})
+        stub_request(:get, "https://api.github.com/users/#{@user.name}/repos?page=1&per_page=#{API_PER_PAGE}").to_return(status: 200, body: File.read(Rails.root.join("spec/web_mocks/github_repos")), headers: {'Content-Type' => 'application/json'})
+        stub_request(:get, "https://api.github.com/users/#{@user.name}/starred?page=1&per_page=#{API_PER_PAGE}").to_return(status: 200, body: File.read(Rails.root.join("spec/web_mocks/github_starred")), headers: {'Content-Type' => 'application/json'})
 
         # Old repo will be deleted
         assert_equal [@repository.name], @user.repositories.map(&:name)
