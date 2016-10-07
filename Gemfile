@@ -14,8 +14,16 @@ source "https://rubygems.org" do
   gem 'rack-cache', require: 'rack/cache'
   gem 'will_paginate'
 
-  group :development do
+  group :development, :test do
     gem 'pry'
+    gem 'rspec-rails'
+    gem 'rails-controller-testing'
+    gem 'factory_girl_rails'
+    gem 'database_cleaner'
+    gem 'faker'
+  end
+
+  group :development do
     gem 'puma'
     gem 'listen'
   end
