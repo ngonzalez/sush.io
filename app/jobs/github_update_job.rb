@@ -25,7 +25,7 @@ class GithubUpdateJob < ActiveJob::Base
   end
   def update_repositories
     results = get_resource :repos
-    user.repositories.select{|repository| results.map(&:name).exclude?(repository.name) }.each &:destroy
+    user.repositories.select{|repository| results.map{|item| item[:name] }.exclude?(repository.name) }.each &:mark_for_destruction
     results.each do |item|
       next if user.repositories.detect{|repository| repository.name == item[:name] }
       user.repositories.build name: item[:name], remote_id: item[:id], remote_created_at: item[:created_at]

@@ -2,9 +2,10 @@ require "rails_helper"
 
 RSpec.describe GithubUpdateJob, :type => :job do
   describe "Perform Update" do
-    context "with user" do
+    context "with user and old repo" do
       setup do
         @user = FactoryGirl.create :user, name: "ngonzalez"
+        @repository = FactoryGirl.create :repository, user: @user
       end
       it "responds successfully with an HTTP 200 status code" do
         # Stub GitHub API Responses
@@ -18,6 +19,9 @@ RSpec.describe GithubUpdateJob, :type => :job do
         content = JSON.parse File.read(Rails.root.join("spec/web_mocks/github_starred"))
         response = content.each_with_object([]){ |item, array| array << item.deep_symbolize_keys }
         stub_request(:get, "https://api.github.com/users/#{@user.name}/starred?page=1&per_page=#{API_PER_PAGE}").to_return(status: 200, body: response)
+
+        # Old repo will be deleted
+        assert_equal [@repository.name], @user.repositories.map(&:name)
 
         # Run Job
         GithubUpdateJob.perform_now user: @user
