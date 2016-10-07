@@ -20,14 +20,12 @@ class GithubUpdateJob < ActiveJob::Base
     page = 1
     response = client.send name, user.name, per_page: 100, page: page
     last_response = client.last_response
+    total_pages = last_response.rels[:last] ? last_response.rels[:last].href.match(/page=(\d+).*$/)[1].to_i : 1
     while page < total_pages
       page += 1
       response += client.send name, user.name, per_page: 100, page: page
     end
     return response
-  end
-  def total_pages
-    client.last_response.rels[:last] ? client.last_response.rels[:last].href.match(/page=(\d+).*$/)[1].to_i : 1
   end
   def update_repositories
     results = get_resource :repos
