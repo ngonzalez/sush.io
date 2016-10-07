@@ -13,9 +13,11 @@ source "https://rubygems.org" do
   gem 'sidekiq'
   gem 'rack-cache', require: 'rack/cache'
   gem 'will_paginate'
+  gem 'puma'
 
   group :development, :test do
     gem 'pry'
+    gem 'listen'
     gem 'rspec-rails'
     gem 'rails-controller-testing'
     gem 'factory_girl_rails'
@@ -23,11 +25,6 @@ source "https://rubygems.org" do
     gem 'faker'
     gem 'webmock'
     gem 'rest-client'
-  end
-
-  group :development do
-    gem 'puma'
-    gem 'listen'
   end
 
 end
