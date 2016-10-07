@@ -20,6 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  global:
+    time_ago: "ago"
   home:
     title: "Sush.io Demo App"
     description: "List GitHub repositories"

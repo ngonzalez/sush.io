@@ -1,8 +1,8 @@
 %ul
   - @users.each do |user|
     %li
-      %h3= link_to user.name, "https://github.com/#{user.name}", target: '_blank'
-      %small.grey= pluralize(user.repositories.length, t('users.repository'))
+      %h3= link_to user.name, GITHUB_URL + user.name, target: '_blank'
+      %small.grey= pluralize user.repositories.length, t('users.repository')
       %p
         %i.fa.fa-star-o
         %small.grey= user_starred_repositories(user).html_safe
