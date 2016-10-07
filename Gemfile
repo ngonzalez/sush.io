@@ -21,6 +21,8 @@ source "https://rubygems.org" do
     gem 'factory_girl_rails'
     gem 'database_cleaner'
     gem 'faker'
+    gem 'webmock'
+    gem 'rest-client'
   end
 
   group :development do

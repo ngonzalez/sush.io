@@ -18,12 +18,12 @@ class GithubUpdateJob < ActiveJob::Base
   private
   def get_resource name
     page = 1
-    response = client.send name, user.name, per_page: 100, page: page
+    response = client.send name, user.name, per_page: API_PER_PAGE, page: page
     last_response = client.last_response
     total_pages = last_response.rels[:last] ? last_response.rels[:last].href.match(/page=(\d+).*$/)[1].to_i : 1
     while page < total_pages
       page += 1
-      response += client.send name, user.name, per_page: 100, page: page
+      response += client.send name, user.name, per_page: API_PER_PAGE, page: page
     end
     return response
   end
@@ -36,7 +36,7 @@ class GithubUpdateJob < ActiveJob::Base
     end
   end
   def update_starred_ids
-    remote_starred_ids = get_resource(:starred).map(&:id)
+    remote_starred_ids = get_resource(:starred).map{ |item| item[:id] }
     user.update! remote_starred_ids: remote_starred_ids if @user.remote_starred_ids != remote_starred_ids
   end
 end
