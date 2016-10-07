@@ -2,18 +2,14 @@ class GithubUpdateJob < ActiveJob::Base
   queue_as :default
   attr_accessor :client, :user
   def perform args
-    ActiveRecord::Base.transaction do
-      begin
-        raise ArgumentError if !args.has_key?(:user) || !args[:user].is_a?(User)
-        @user = args[:user]
-        @client = Octokit::Client.new access_token: GITHUB_TOKEN
-        update_repositories
-        update_starred_ids
-        user.update! last_updated_at: Time.now
-      rescue Exception => e
-        raise ActiveRecord::Rollback
-      end
-    end
+    raise ArgumentError if !args.has_key?(:user) || !args[:user].is_a?(User)
+    @user = args[:user]
+    @client = Octokit::Client.new access_token: GITHUB_TOKEN
+    update_repositories
+    update_starred_ids
+    user.last_updated_at = Time.now
+    user.save!
+    return true
   end
   private
   def get_resource name
@@ -32,11 +28,10 @@ class GithubUpdateJob < ActiveJob::Base
     user.repositories.select{|repository| results.map(&:name).exclude?(repository.name) }.each &:destroy
     results.each do |item|
       next if user.repositories.detect{|repository| repository.name == item[:name] }
-      user.repositories.create! name: item[:name], remote_id: item[:id], remote_created_at: item[:created_at]
+      user.repositories.build name: item[:name], remote_id: item[:id], remote_created_at: item[:created_at]
     end
   end
   def update_starred_ids
-    remote_starred_ids = get_resource(:starred).map{ |item| item[:id] }
-    user.update! remote_starred_ids: remote_starred_ids if @user.remote_starred_ids != remote_starred_ids
+    user.remote_starred_ids = get_resource(:starred).map{ |item| item[:id] }
   end
 end

@@ -18,8 +18,7 @@ class GithubController < ApplicationController
   private
   def set_user
     if params[:user]
-      @user = User.find_by name: user_params[:name]
-      @user = User.create! name: user_params[:name] if !@user
+      @user = User.find_by(user_params) || User.new(user_params)
     else
       @user = User.new
     end
