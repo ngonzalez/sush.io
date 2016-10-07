@@ -17,10 +17,7 @@ class GithubController < ApplicationController
   end
   private
   def set_user
-    @user = params[:user] ? User.find_by(user_params) || User.new(user_params) : User.new
-  end
-  def user_params
-    params.require(:user).permit(:name)
+    @user = User.find_by(name: params[:n]) || User.new(name: params[:n])
   end
   def set_page
     @page = params[:page].to_i > 0 ? params[:page].to_i : 1

@@ -2,10 +2,10 @@
 
   window.initGithub = (options) ->
     if options.name
-      displayUser url: options.url, data: { user: { name: options.name }, page: options.page }
+      displayUser url: options.url, data: { n: options.name, page: options.page }
     $('form.github-input').submit (e) ->
       e.preventDefault()
-      displayUser url: options.url, data: { user: { name: $('#user').val() }, page: 1 }
+      displayUser url: options.url, data: { n: $('#user').val(), page: 1 }
 
   displayUser = (options) ->
     $.ajax
