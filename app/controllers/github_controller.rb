@@ -1,6 +1,6 @@
 class GithubController < ApplicationController
-  before_action :set_page, only: [:index, :list]
-  before_action :set_user, only: [:index, :list]
+  before_action :set_page
+  before_action :set_user
   def index ; end
   def list
     GithubUpdateJob.perform_now user: @user if !@user.last_updated_at || (Time.now - @user.last_updated_at > 1.hour)
@@ -17,11 +17,7 @@ class GithubController < ApplicationController
   end
   private
   def set_user
-    if params[:user]
-      @user = User.find_by(user_params) || User.new(user_params)
-    else
-      @user = User.new
-    end
+    @user = params[:user] ? User.find_by(user_params) || User.new(user_params) : User.new
   end
   def user_params
     params.require(:user).permit(:name)
