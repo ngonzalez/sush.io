@@ -3,8 +3,6 @@
     %li
       %h3= link_to user.name, "https://github.com/#{user.name}", target: '_blank'
       %small.grey= pluralize(user.repositories.length, t('users.repository'))
-      %ul
-      - user.starred_repositories.each do |repository|
-        %li{ style: "list-style-type: none; margin: 10px 0;" }
-          %i.fa.fa-star-o
-          = link_to repository.name, [user.name, repository.name].join('/'), target: '_blank'
+      %p
+        %i.fa.fa-star-o
+        %small.grey= user_starred_repositories(user).html_safe
